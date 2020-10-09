@@ -1,0 +1,5 @@
+﻿  Application.cpp
+  main.cpp
+C:\Users\samue\Desktop\GamesDevelopment\Projects\GCP\Multi Threading\main.cpp(52,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  Multi Threading.vcxproj -> C:\Users\samue\Desktop\GamesDevelopment\Projects\GCP\Debug\Multi Threading.exe
