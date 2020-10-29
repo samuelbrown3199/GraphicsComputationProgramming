@@ -2,25 +2,24 @@
 
 void Application::Render()
 {
-	for (int i = 0; i < 10000; i++)
+	for (int i = 0; i < 100000; i++)
 	{
 
 	}
 
-	ioMtx.lock();
 	std::cout << "Render finished" << std::endl;
-	ioMtx.unlock();
 }
 void Application::Update()
 {
-	for (int i = 0; i < 10000; i++)
+	for (int i = 0; i < 100000; i++)
 	{
+		int a = rand() % 100000;
+		int b = rand() % 500000;
 
+		int c = a + b;
 	}
 
-	ioMtx.lock();
 	std::cout << "Update finished" << std::endl;
-	ioMtx.unlock();
 }
 
 void Application::MainLoop()
@@ -33,7 +32,7 @@ void Application::MainLoop()
 		renderThread = std::thread(&Application::Render, this);
 		updateThread = std::thread(&Application::Update, this);
 
-		renderThread.join();
 		updateThread.join();
+		renderThread.join();
 	}
 }

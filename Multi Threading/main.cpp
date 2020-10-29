@@ -51,7 +51,7 @@ int main()
 	auto start = std::chrono::high_resolution_clock::now();
 	srand(time(NULL));
 
-	massiveArray = new int[10000];
+	/*massiveArray = new int[10000];
 
 	std::thread threads[2];
 	for (int i = 0; i < 2; i++)
@@ -69,12 +69,12 @@ int main()
 	for (int i = 0; i < 10000; i++)
 	{
 		std::cout << "Massive Array " << i << " = " << massiveArray[i] << std::endl;
-	}
+	}*/
 
 	Application* app = new Application();
 	app->MainLoop();
 
-	std::cout << "Process took " << duration.count() << " ms to create the array values." << std::endl;
+	//std::cout << "Process took " << duration.count() << " ms to create the array values." << std::endl;
 
 	return 0;
 }
