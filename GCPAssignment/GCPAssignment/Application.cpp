@@ -22,14 +22,17 @@ void Application::Initialise()
 	shader = std::make_shared<Shader>("vertex.vs", "fragment.fs");
 	for (int i = 0; i < 10; i++)
 	{
-		cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(rand() % 30 - 30, rand() % 30 - 30, rand() % 30 - 30), glm::vec3(rand() % 360, rand() % 360, rand() % 360), glm::vec3(1, 1, 1)));
+		cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(rand() % 30 - 30, rand() % 30 - 30, rand() % 30 - 30), glm::vec3(rand() % 360, rand() % 360, rand() % 360), glm::vec3(1,1,1)));
 	}
+
+	cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(0, -15, 0), glm::vec3(0,0,0), glm::vec3(25, 1, 25)));
 }
 
 void Application::MainLoop()
 {
 	SDL_Event e = { 0 };
 	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
 
 	while (loop)
 	{
@@ -46,7 +49,7 @@ void Application::MainLoop()
 		cam->UpdateCamera();
 
 		glClearColor(0.0f, 0.45f, 0.45f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 		for (size_t cu = 0; cu < cubes.size(); cu++)
 		{
 			cubes.at(cu)->RenderCube(GetProjectionMatrix(), cam->view);

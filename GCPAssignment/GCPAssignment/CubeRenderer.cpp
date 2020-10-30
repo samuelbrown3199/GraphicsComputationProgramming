@@ -50,7 +50,6 @@ void CubeRenderer::InitialiseCube()
     -1.0f, 1.0f, 1.0f,
     1.0f,-1.0f, 1.0f
     };
-
     GLuint positionsVboId = 0;
     // Create a new VBO on the GPU and bind it
     glGenBuffers(1, &positionsVboId);
@@ -84,6 +83,8 @@ void CubeRenderer::InitialiseCube()
 glm::mat4 CubeRenderer::GetModelMatrix()
 {
     glm::mat4 rtn(1.0f);
+
+    rtn = glm::scale(rtn, scale);
 
     rtn = glm::translate(rtn, position);
     rtn = glm::rotate(rtn, glm::radians(rotation.x), glm::vec3(1, 0, 0));

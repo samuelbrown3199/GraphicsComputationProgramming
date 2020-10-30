@@ -17,7 +17,7 @@ class Application
 {
 private:
 
-	int windowHeight = 650, windowWidth = 650;
+	int windowHeight = 900, windowWidth = 900;
 	SDL_Window* window;
 
 	bool loop = true;
