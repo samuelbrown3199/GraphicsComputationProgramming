@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+*.ipch
+GCPAssignment/.vs/GCPAssignment/v16/.suo
+GCPAssignment/.vs/GCPAssignment/v16/Browse.VC.db
+GCPAssignment/.vs/GCPAssignment/v16/Browse.VC.opendb
