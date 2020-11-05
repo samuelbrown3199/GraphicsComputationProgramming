@@ -12,10 +12,13 @@
 
 #include "Camera.h"
 #include "CubeRenderer.h"
+#include "Texture.h"
 
 class Application
 {
 private:
+
+	glm::mat4 proj;
 
 	int windowHeight = 900, windowWidth = 900;
 	SDL_Window* window;
@@ -24,6 +27,7 @@ private:
 
 	std::shared_ptr<Camera> cam;
 	std::shared_ptr<Shader> shader;
+	std::shared_ptr<Texture> texture;
 	std::vector<std::shared_ptr<CubeRenderer>> cubes;
 
 	void UpdateScreenSize();

@@ -45,6 +45,8 @@ void Shader::SetupShader(const GLchar* vertexSource, const GLchar* fragmentSourc
     glGetShaderiv(vertexShaderID, GL_COMPILE_STATUS, &success);
     if (!success)
     {
+        std::cout << "Failed to compile vertex shader!" << std::endl;
+
         GLint maxLength = 0;
         glGetShaderiv(vertexShaderID, GL_INFO_LOG_LENGTH, &maxLength);
 
@@ -66,6 +68,8 @@ void Shader::SetupShader(const GLchar* vertexSource, const GLchar* fragmentSourc
     glGetShaderiv(fragmentShaderID, GL_COMPILE_STATUS, &success);
     if (!success)
     {
+        std::cout << "Failed to compile fragment shader!" << std::endl;
+
         GLint maxLength = 0;
         glGetShaderiv(fragmentShaderID, GL_INFO_LOG_LENGTH, &maxLength);
 

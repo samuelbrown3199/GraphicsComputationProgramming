@@ -8,7 +8,7 @@ Application::Application()
 
 void Application::Initialise()
 {
-	window = SDL_CreateWindow("GCP Assigment", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+	window = SDL_CreateWindow("GCP Assignment", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 	if (!SDL_GL_CreateContext(window))
 	{
 		throw std::exception();
@@ -20,18 +20,22 @@ void Application::Initialise()
 
 	cam = std::make_shared<Camera>();
 	shader = std::make_shared<Shader>("vertex.vs", "fragment.fs");
+	texture = std::make_shared<Texture>();
+	texture->resourcePath = "test.png";
+	texture->OnLoad();
+
 	for (int i = 0; i < 10; i++)
 	{
-		cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(rand() % 30 - 30, rand() % 30 - 30, rand() % 30 - 30), glm::vec3(rand() % 360, rand() % 360, rand() % 360), glm::vec3(1,1,1)));
+		cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(rand() % 30, rand() % 10 + 1, rand() % 30), glm::vec3(rand() % 360, rand() % 360, rand() % 360), glm::vec3(1,1,1), texture));
 	}
 
-	cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(0, -15, 0), glm::vec3(0,0,0), glm::vec3(25, 1, 25)));
+	cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(5, 0, 5), glm::vec3(0,0,0), glm::vec3(25, 0.5, 25), texture));
 }
 
 void Application::MainLoop()
 {
 	SDL_Event e = { 0 };
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 
 	while (loop)
@@ -62,11 +66,11 @@ void Application::MainLoop()
 void Application::UpdateScreenSize()
 {
 	SDL_GetWindowSize(window, &windowWidth, &windowHeight);
+	proj = GetProjectionMatrix();
 }
 
 glm::mat4 Application::GetProjectionMatrix()
 {
-	glm::mat4 proj(1.0f);
-	proj = glm::perspective(glm::radians(45.0f), (float)windowHeight / (float)windowWidth, 0.1f, 100.0f);
+	proj = glm::perspective(glm::radians(90.0f), (float)windowHeight / (float)windowWidth, 0.1f, 100.0f);
 	return proj;
 }
