@@ -16,14 +16,162 @@ void CubeRenderer::InitialiseCube()
 {
     static const GLfloat positions[] =
     {
-        -1, -1, -1,
-        1, -1, -1,
-        1, 1, -1,
-        -1, 1, -1,
-        -1, -1, 1,
-        1, -1, 1,
-        1, 1, 1,
-        -1, 1, 1
+    -1.0f,-1.0f,-1.0f,
+    -1.0f,-1.0f, 1.0f,
+    -1.0f, 1.0f, 1.0f,
+
+    1.0f, 1.0f,-1.0f,
+    -1.0f,-1.0f,-1.0f,
+    -1.0f, 1.0f,-1.0f,
+
+    1.0f,-1.0f, 1.0f,
+    -1.0f,-1.0f,-1.0f,
+    1.0f,-1.0f,-1.0f,
+
+    1.0f, 1.0f,-1.0f,
+    1.0f,-1.0f,-1.0f,
+    -1.0f,-1.0f,-1.0f,
+
+    -1.0f,-1.0f,-1.0f,
+    -1.0f, 1.0f, 1.0f,
+    -1.0f, 1.0f,-1.0f,
+
+    1.0f,-1.0f, 1.0f,
+    -1.0f,-1.0f, 1.0f,
+    -1.0f,-1.0f,-1.0f,
+
+    -1.0f, 1.0f, 1.0f,
+    -1.0f,-1.0f, 1.0f,
+    1.0f,-1.0f, 1.0f,
+
+    1.0f, 1.0f, 1.0f,
+    1.0f,-1.0f,-1.0f,
+    1.0f, 1.0f,-1.0f,
+
+    1.0f,-1.0f,-1.0f,
+    1.0f, 1.0f, 1.0f,
+    1.0f,-1.0f, 1.0f,
+
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f,-1.0f,
+    -1.0f, 1.0f,-1.0f,
+
+    1.0f, 1.0f, 1.0f,
+    -1.0f, 1.0f,-1.0f,
+    -1.0f, 1.0f, 1.0f,
+
+    1.0f, 1.0f, 1.0f,
+    -1.0f, 1.0f, 1.0f,
+    1.0f,-1.0f, 1.0f
+    };
+
+    static const GLfloat texCoords[] =
+    {
+    0.0f, 0.0f,
+    1.0f, 0.0f,
+    1.0f, 1.0f,
+
+    0.0f, 1.0f,
+    1.0f, 0.0f,
+    1.0f, 1.0f,
+
+    0.0f, 0.0f,
+    1.0f, 1.0f,
+    0.0f, 1.0f,
+
+    0.0f, 1.0f,
+    0.0f, 0.0f,
+    1.0f, 0.0f,
+
+    0.0f, 0.0f,
+    1.0f, 1.0f,
+    0.0f, 1.0f,
+
+    0.0f, 0.0f,
+    1.0f, 0.0f,
+    1.0f, 1.0f,
+
+    0.0f, 1.0f,
+    0.0f, 0.0f,
+    1.0f, 0.0f,
+
+    0.0f, 1.0f,
+    1.0f, 0.0f,
+    1.0f, 1.0f,
+
+    1.0f, 0.0f,
+    0.0f, 1.0f,
+    0.0f, 0.0f,
+
+    1.0f, 0.0f,
+    1.0f, 1.0f,
+    0.0f, 1.0f,
+
+    1.0f, 0.0f,
+    0.0f, 1.0f,
+    0.0f, 0.0f,
+
+    1.0f, 1.0f,
+    0.0f, 1.0f,
+    1.0f, 0.0f,
+    };
+
+    static const GLfloat normals[] =
+    {
+     //bottom face
+     1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, 1.0f,
+     -1.0f, -1.0f, 1.0f,
+
+     1.0f, -1.0f, -1.0f,
+     -1.0f, -1.0f, 1.0f,
+     -1.0f, -1.0f, -1.0f,
+
+     //top face
+     1.0f, 1.0f, -1.0f,
+     -1.0f, 1.0f, -1.0f,
+     -1.0f, 1.0f, 1.0f,
+
+     1.0f, 1.0f, -1.0f,
+     -1.0f, 1.0f, 1.0f,
+     1.0f, 1.0f, 1.0f,
+
+     //right face
+     1.0f, -1.0f, -1.0f,
+     1.0f, 1.0f, -1.0f,
+     1.0f, 1.0f, 1.0f,
+
+     1.0f, -1.0f, -1.0f,
+     1.0f, 1.0f, 1.0f,
+     1.0f, -1.0f, 1.0f,
+
+     //front face
+     1.0f, -1.0f, 1.0f,
+     1.0f, 1.0f, 1.0f,
+     -1.0f, 1.0f, 1.0f,
+
+     1.0f, -1.0f, 1.0f,
+     -1.0f, 1.0f, 1.0f,
+     -1.0f, -1.0f, 1.0f,
+
+     //left face
+     -1.0f, -1.0f, 1.0f,
+     -1.0f, 1.0f, 1.0f,
+     -1.0f, 1.0f, -1.0f,
+
+     -1.0f, -1.0f, 1.0f,
+     -1.0f, 1.0f, -1.0f,
+     -1.0f, -1.0f, -1.0f,
+
+     //back face
+     1.0f, 1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+     -1.0f, -1.0f, -1.0f,
+
+     1.0f, 1.0f, -1.0f,
+     -1.0f, -1.0f, -1.0f,
+     -1.0f, 1.0f, -1.0f,
+
     };
 
     GLuint positionsVboId = 0;
@@ -40,18 +188,6 @@ void CubeRenderer::InitialiseCube()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
-    static const GLfloat texCoords[] =
-    {
-        0, 0,
-        1, 0,
-        1, 1,
-        0, 1,
-        0, 0,
-        1, 0,
-        1, 1,
-        0, 1
-    };
-
     GLuint uvVboId = 0;
     glGenBuffers(1, &uvVboId);
     if (!uvVboId)
@@ -62,15 +198,15 @@ void CubeRenderer::InitialiseCube()
     glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    //indices test
-    glGenBuffers(1, &elementBuffer);
-    if (!elementBuffer)
+    GLuint normalVboId = 0;
+    glGenBuffers(1, &normalVboId);
+    if (!normalVboId)
     {
         throw std::exception();
     }
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 36 * sizeof(int), &indices[0], GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, normalVboId);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(normals), normals, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glGenVertexArrays(1, &vaoId);
     if (!vaoId)
@@ -89,8 +225,10 @@ void CubeRenderer::InitialiseCube()
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(1);
 
-    shader->BindAttributeLocation(0, "a_Position");
-    shader->BindAttributeLocation(1, "a_TexCoord");
+    glBindBuffer(GL_ARRAY_BUFFER, normalVboId);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
+    glEnableVertexAttribArray(2);
+
     // Reset the state
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -117,18 +255,8 @@ void CubeRenderer::RenderCube(glm::mat4 projection, glm::mat4 view)
     shader->BindMatrix("u_Model", GetModelMatrix());
 
     glBindTexture(GL_TEXTURE_2D, tex->textureID);
-
     glBindVertexArray(vaoId);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
-    glDrawElements(
-        GL_TRIANGLES,      // mode
-        sizeof(indices)/sizeof(int),    // count
-        GL_UNSIGNED_INT,   // type
-        (void*)0           // element array buffer offset
-    );
-
-    //glBindVertexArray(vaoId);
-    //glDrawArrays(GL_TRIANGLES, 0, 12*3);
+    glDrawArrays(GL_TRIANGLES, 0, 12*3);
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
     glUseProgram(0);

@@ -27,7 +27,7 @@ private:
 
 	std::shared_ptr<Camera> cam;
 	std::shared_ptr<Shader> shader;
-	std::shared_ptr<Texture> texture;
+	std::shared_ptr<Texture> crateTexture, floorTexture;
 	std::vector<std::shared_ptr<CubeRenderer>> cubes;
 
 	void UpdateScreenSize();

@@ -34,6 +34,8 @@ public:
 
 	void BindAttributeLocation(int index, const GLchar* name);
 	void BindMatrix(std::string location, glm::mat4 matrix);
+	void BindFloat(std::string location, float value);
+	void BindVector3(std::string location, glm::vec3 vector);
 
 protected:
 

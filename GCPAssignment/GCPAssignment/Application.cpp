@@ -20,22 +20,32 @@ void Application::Initialise()
 
 	cam = std::make_shared<Camera>();
 	shader = std::make_shared<Shader>("vertex.vs", "fragment.fs");
-	texture = std::make_shared<Texture>();
-	texture->resourcePath = "test.png";
-	texture->OnLoad();
 
-	for (int i = 0; i < 10; i++)
-	{
-		cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(rand() % 30, rand() % 10 + 1, rand() % 30), glm::vec3(rand() % 360, rand() % 360, rand() % 360), glm::vec3(1,1,1), texture));
-	}
+	shader->UseShader();
+	//bind any required data to the shaders in intialisation
+	shader->BindVector3("u_ALightColour", glm::vec3(0.0f, 0.45f, 0.45f));
+	shader->BindFloat("u_ALightStrength", 0.25);
+	shader->BindVector3("u_LightPosition", glm::vec3(10, 10, 10));
+	glUseProgram(0);
 
-	cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(5, 0, 5), glm::vec3(0,0,0), glm::vec3(25, 0.5, 25), texture));
+	crateTexture = std::make_shared<Texture>();
+	crateTexture->resourcePath = "crate.png";
+	crateTexture->OnLoad();
+
+	floorTexture = std::make_shared<Texture>();
+	floorTexture->resourcePath = "floor.png";
+	floorTexture->OnLoad();
+
+	cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(0, 0, 0), glm::vec3(0,0,0), glm::vec3(25, 0.5, 25), floorTexture)); //floor
+
+	cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(0, 1, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateTexture));	//other cubes
+	cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(5, 5, 3), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateTexture));
 }
 
 void Application::MainLoop()
 {
 	SDL_Event e = { 0 };
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 
 	while (loop)
@@ -66,6 +76,7 @@ void Application::MainLoop()
 void Application::UpdateScreenSize()
 {
 	SDL_GetWindowSize(window, &windowWidth, &windowHeight);
+	glViewport(0, 0, windowWidth, windowHeight);
 	proj = GetProjectionMatrix();
 }
 

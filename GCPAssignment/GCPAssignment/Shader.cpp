@@ -130,3 +130,15 @@ void Shader::BindMatrix(std::string location, glm::mat4 matrix)
     GLint matrixLocation = glGetUniformLocation(programID, location.c_str());
     glUniformMatrix4fv(matrixLocation, 1, GL_FALSE, glm::value_ptr(matrix));
 }
+
+void Shader::BindFloat(std::string location, float value)
+{
+    GLint floatLocation = glGetUniformLocation(programID, location.c_str());
+    glUniform1f(floatLocation, value);
+}
+
+void Shader::BindVector3(std::string location, glm::vec3 vector)
+{
+    GLint vectorLocation = glGetUniformLocation(programID, location.c_str());
+    glUniform3f(vectorLocation, vector.x, vector.y, vector.z);
+}
