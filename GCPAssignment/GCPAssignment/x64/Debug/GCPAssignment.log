@@ -1,3 +1,6 @@
 ﻿  Application.cpp
 C:\Users\samue\Desktop\GamesDevelopment\Projects\GCP\GCPAssignment\GCPAssignment\Application.cpp(6,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  CubeRenderer.cpp
+  main.cpp
+  Generating Code...
   GCPAssignment.vcxproj -> C:\Users\samue\Desktop\GamesDevelopment\Projects\GCP\GCPAssignment\x64\Debug\GCPAssignment.exe
