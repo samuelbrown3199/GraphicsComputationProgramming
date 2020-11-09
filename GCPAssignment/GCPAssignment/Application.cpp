@@ -3,7 +3,6 @@
 Application::Application()
 {
 	std::cout << "Created application" << std::endl;
-	srand(time(NULL));
 }
 
 void Application::Initialise()
@@ -23,9 +22,17 @@ void Application::Initialise()
 
 	shader->UseShader();
 	//bind any required data to the shaders in intialisation
-	shader->BindVector3("u_ALightColour", glm::vec3(0.0f, 0.45f, 0.45f));
-	shader->BindFloat("u_ALightStrength", 0.25);
-	shader->BindVector3("u_LightPosition", glm::vec3(10, 10, 10));
+
+	shader->BindVector3("material.ambient", glm::vec3(1.0f, 1.0f, 1.0f));
+	shader->BindVector3("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
+	shader->BindVector3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+	shader->BindFloat("material.shininess", 32.0f);
+
+	shader->BindVector3("light.lightPosition", glm::vec3(10, 10, 10));
+	shader->BindVector3("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+	shader->BindVector3("light.diffuse", glm::vec3(1.0f, 1.0f, 1.0f));
+	shader->BindVector3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+
 	glUseProgram(0);
 
 	crateTexture = std::make_shared<Texture>();
@@ -40,12 +47,18 @@ void Application::Initialise()
 	catTexture->resourcePath = "Whiskers_diffuse.png";
 	catTexture->OnLoad();
 
-	cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(0, 0, 0), glm::vec3(0,0,0), glm::vec3(25, 0.5, 25), floorTexture)); //floor
+	catSpecular = std::make_shared<Texture>();
+	catSpecular->resourcePath = "Whiskers_specular.png";
+	catSpecular->OnLoad();
 
-	cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(0, 1, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateTexture));	//other cubes
-	cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(5, 5, 3), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateTexture));
+	catMat = std::make_shared<Material>(catTexture, catSpecular);
 
-	meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(-5, 2.5, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), catTexture, "curuthers.obj"));
+	meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(-5, 2.5, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), catMat, "curuthers.obj"));
+	/*meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(25, 0.5, 25), floorTexture, "cube.obj")); //floor
+
+	meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(0, 1, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateTexture, "cube.obj"));	//other cubes
+	meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(5, 5, 3), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateTexture, "cube.obj"));*/
+
 }
 
 void Application::MainLoop()

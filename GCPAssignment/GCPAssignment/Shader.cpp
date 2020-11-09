@@ -137,6 +137,12 @@ void Shader::BindFloat(std::string location, float value)
     glUniform1f(floatLocation, value);
 }
 
+void Shader::BindInt(std::string location, int value)
+{
+    GLint floatLocation = glGetUniformLocation(programID, location.c_str());
+    glUniform1i(floatLocation, value);
+}
+
 void Shader::BindVector3(std::string location, glm::vec3 vector)
 {
     GLint vectorLocation = glGetUniformLocation(programID, location.c_str());

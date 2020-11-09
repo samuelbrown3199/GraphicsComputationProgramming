@@ -1,12 +1,12 @@
 #include "MeshRenderer.h"
 
-MeshRenderer::MeshRenderer(std::shared_ptr<Shader> _shader, glm::vec3 _pos, glm::vec3 _rot, glm::vec3 _scale, std::shared_ptr<Texture> _tex, std::string _fileName)
+MeshRenderer::MeshRenderer(std::shared_ptr<Shader> _shader, glm::vec3 _pos, glm::vec3 _rot, glm::vec3 _scale, std::shared_ptr<Material> _mat, std::string _fileName)
 {
 	shader = _shader;
 	position = _pos;
 	rotation = _rot;
 	scale = _scale;
-	tex = _tex;
+	material = _mat;
 
 	fileName = _fileName;
 	InitialiseMesh();
@@ -36,8 +36,15 @@ void MeshRenderer::RenderMesh(glm::mat4 projection, glm::mat4 view)
 	shader->BindMatrix("u_Projection", projection);
 	shader->BindMatrix("u_View", view);
 	shader->BindMatrix("u_Model", GetModelMatrix());
+	shader->BindInt("material.diffuse", 0);
+	shader->BindInt("material.specular", 1);
 
-	glBindTexture(GL_TEXTURE_2D, tex->textureID);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, material->diffuse->textureID);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, material->specular->textureID);
+
 	glBindVertexArray(vaoId);
 	glDrawArrays(GL_TRIANGLES, 0, drawCount);
 	glBindVertexArray(0);

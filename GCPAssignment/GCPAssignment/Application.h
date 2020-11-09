@@ -28,7 +28,9 @@ private:
 
 	std::shared_ptr<Camera> cam;
 	std::shared_ptr<Shader> shader;
-	std::shared_ptr<Texture> crateTexture, floorTexture, catTexture;
+	std::shared_ptr<Texture> crateTexture, floorTexture, catTexture, catSpecular;
+	std::shared_ptr<Material> catMat;
+
 	std::vector<std::shared_ptr<CubeRenderer>> cubes;
 	std::vector<std::shared_ptr<MeshRenderer>> meshes;
 
