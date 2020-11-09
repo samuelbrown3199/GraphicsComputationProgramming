@@ -12,6 +12,7 @@
 
 #include "Camera.h"
 #include "CubeRenderer.h"
+#include "MeshRenderer.h"
 #include "Texture.h"
 
 class Application
@@ -27,8 +28,9 @@ private:
 
 	std::shared_ptr<Camera> cam;
 	std::shared_ptr<Shader> shader;
-	std::shared_ptr<Texture> crateTexture, floorTexture;
+	std::shared_ptr<Texture> crateTexture, floorTexture, catTexture;
 	std::vector<std::shared_ptr<CubeRenderer>> cubes;
+	std::vector<std::shared_ptr<MeshRenderer>> meshes;
 
 	void UpdateScreenSize();
 

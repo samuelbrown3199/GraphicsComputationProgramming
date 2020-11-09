@@ -20,12 +20,12 @@ private:
 	const float movementSpeed = 0.1f;
 	glm::vec2 oldMousePos, newMousePos;
 
-	glm::vec3 position;
 	glm::vec3 forward;
 	glm::vec3 up;
 
 public:
 
+	glm::vec3 position;
 	int time = 0;
 
 	Camera();

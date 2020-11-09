@@ -36,10 +36,16 @@ void Application::Initialise()
 	floorTexture->resourcePath = "floor.png";
 	floorTexture->OnLoad();
 
+	catTexture = std::make_shared<Texture>();
+	catTexture->resourcePath = "Whiskers_diffuse.png";
+	catTexture->OnLoad();
+
 	cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(0, 0, 0), glm::vec3(0,0,0), glm::vec3(25, 0.5, 25), floorTexture)); //floor
 
 	cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(0, 1, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateTexture));	//other cubes
 	cubes.push_back(std::make_shared<CubeRenderer>(shader, glm::vec3(5, 5, 3), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateTexture));
+
+	meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(-5, 2.5, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), catTexture, "curuthers.obj"));
 }
 
 void Application::MainLoop()
@@ -62,11 +68,20 @@ void Application::MainLoop()
 		cam->CameraControls();
 		cam->UpdateCamera();
 
+		shader->UseShader();
+		shader->BindVector3("viewPos", cam->position);
+		glUseProgram(0);
+
+
 		glClearColor(0.0f, 0.45f, 0.45f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 		for (size_t cu = 0; cu < cubes.size(); cu++)
 		{
 			cubes.at(cu)->RenderCube(GetProjectionMatrix(), cam->view);
+		}
+		for (size_t mu = 0; mu < meshes.size(); mu++)
+		{
+			meshes.at(mu)->RenderMesh(GetProjectionMatrix(), cam->view);
 		}
 
 		SDL_GL_SwapWindow(window);

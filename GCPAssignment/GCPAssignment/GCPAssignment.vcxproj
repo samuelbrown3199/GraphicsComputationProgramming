@@ -149,14 +149,17 @@
     <ClCompile Include="CubeRenderer.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="bugl.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CubeRenderer.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>

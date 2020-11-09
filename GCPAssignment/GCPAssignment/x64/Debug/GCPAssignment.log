@@ -1,6 +1,11 @@
 ﻿  Application.cpp
 C:\Users\samue\Desktop\GamesDevelopment\Projects\GCP\GCPAssignment\GCPAssignment\Application.cpp(6,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Camera.cpp
   CubeRenderer.cpp
+  MeshRenderer.cpp
+C:\Users\samue\Desktop\GamesDevelopment\Projects\GCP\GCPAssignment\GCPAssignment\MeshRenderer.cpp(42,41): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\samue\Desktop\GamesDevelopment\Projects\GCP\GCPAssignment\GCPAssignment\bugl.h(324,25): warning C4101: 'e': unreferenced local variable
+C:\Users\samue\Desktop\GamesDevelopment\Projects\GCP\GCPAssignment\GCPAssignment\MeshRenderer.cpp(17): message : see reference to function template instantiation 'GLuint bu::loadModel<int>(const std::string &,size_t *)' being compiled
   main.cpp
   Generating Code...
   GCPAssignment.vcxproj -> C:\Users\samue\Desktop\GamesDevelopment\Projects\GCP\GCPAssignment\x64\Debug\GCPAssignment.exe
