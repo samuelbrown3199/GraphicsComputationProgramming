@@ -42,8 +42,36 @@ void MeshRenderer::RenderMesh(glm::mat4 projection, glm::mat4 view)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, material->diffuse->textureID);
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, material->specular->textureID);
+	if (material->specular)
+	{
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, material->specular->textureID);
+	}
+
+	glBindVertexArray(vaoId);
+	glDrawArrays(GL_TRIANGLES, 0, drawCount);
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUseProgram(0);
+}
+
+void MeshRenderer::RenderMesh(glm::mat4 projection, glm::mat4 view, std::shared_ptr<Shader> _shader)
+{
+	_shader->UseShader();
+	_shader->BindMatrix("u_Projection", projection);
+	_shader->BindMatrix("u_View", view);
+	_shader->BindMatrix("u_Model", GetModelMatrix());
+	_shader->BindInt("material.diffuse", 0);
+	_shader->BindInt("material.specular", 1);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, material->diffuse->textureID);
+
+	if (material->specular)
+	{
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, material->specular->textureID);
+	}
 
 	glBindVertexArray(vaoId);
 	glDrawArrays(GL_TRIANGLES, 0, drawCount);

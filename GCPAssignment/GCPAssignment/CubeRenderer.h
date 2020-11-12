@@ -26,5 +26,6 @@ public:
 	void InitialiseCube();
 	glm::mat4 GetModelMatrix();
 	void RenderCube(glm::mat4 projection, glm::mat4 view);
+	void RenderCube(glm::mat4 projection, glm::mat4 view, std::shared_ptr<Shader> _shader);
 };
 

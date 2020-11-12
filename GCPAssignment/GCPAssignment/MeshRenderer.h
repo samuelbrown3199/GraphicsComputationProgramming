@@ -18,6 +18,10 @@ struct Material
 		diffuse = _diffuse;
 		specular = _specular;
 	}
+	Material(std::shared_ptr<Texture> _diffuse)
+	{
+		diffuse = _diffuse;
+	}
 };
 
 class MeshRenderer
@@ -40,5 +44,6 @@ public:
 	void InitialiseMesh();
 	glm::mat4 GetModelMatrix();
 	void RenderMesh(glm::mat4 projection, glm::mat4 view);
+	void RenderMesh(glm::mat4 projection, glm::mat4 view, std::shared_ptr<Shader> _shader);
 };
 

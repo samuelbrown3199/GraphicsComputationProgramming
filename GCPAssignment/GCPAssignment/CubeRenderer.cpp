@@ -261,3 +261,18 @@ void CubeRenderer::RenderCube(glm::mat4 projection, glm::mat4 view)
     glBindTexture(GL_TEXTURE_2D, 0);
     glUseProgram(0);
 }
+
+void CubeRenderer::RenderCube(glm::mat4 projection, glm::mat4 view, std::shared_ptr<Shader> _shader)
+{
+    _shader->UseShader();
+    _shader->BindMatrix("u_Projection", projection);
+    _shader->BindMatrix("u_View", view);
+    _shader->BindMatrix("u_Model", GetModelMatrix());
+
+    glBindTexture(GL_TEXTURE_2D, tex->textureID);
+    glBindVertexArray(vaoId);
+    glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+    glBindVertexArray(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glUseProgram(0);
+}
