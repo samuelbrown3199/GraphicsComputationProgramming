@@ -1,10 +1,9 @@
 #include "Light.h"
 
-Light::Light(int _type, glm::vec3 _pos, glm::vec3 _dir, glm::vec3 _amb, glm::vec3 _dif, glm::vec3 _spec)
+Light::Light(int _type, glm::vec3 _pos, glm::vec3 _amb, glm::vec3 _dif, glm::vec3 _spec)
 {
 	type = _type;
 	position = _pos;
-	direction = _dir;
 	ambient = _amb;
 	diffuse = _dif;
 	specular = _spec;

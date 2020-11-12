@@ -42,17 +42,23 @@ in vec4 fragPosLightSpace;
 
 uniform sampler2D shadowMap;
 
-float CalculateShadow()
+float CalculateShadow(float lightNormal)
 {
-    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-    projCoords = projCoords * 0.5 + 0.5;
+    vec3 pos = fragPosLightSpace.xyz * 0.5 + 0.5;
 
-    float closestDepth = texture(shadowMap, projCoords.xy).r;
-    float currentDepth = projCoords.z;
+    float bias = 0.00005;
+    float shadow = 0.0;
+    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    for(int x = -1; x <= 1; ++x)
+    {
+        for(int y = -1; y <= 1; ++y)
+        {
+            float depth = texture(shadowMap, pos.xy + vec2(x,y) * texelSize).r;
+            shadow += (depth + bias) < pos.z ? 0.0 : 1.0;
+        }
+	}
 
-    float bias = 0.00015;
-    float shadow = currentDepth - bias > closestDepth ? 0.0 : 1.0;
-    return shadow;
+    return shadow / 9.0;
 }
 
 vec3 CalculateDirLight(DirLight light, vec3 normal, vec3 viewDir)
@@ -69,7 +75,7 @@ vec3 CalculateDirLight(DirLight light, vec3 normal, vec3 viewDir)
     vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, texCoord));
     vec3 specular = light.specular * spec * vec3(texture(material.specular, texCoord));
 
-    float shadow = CalculateShadow();
+    float shadow = CalculateShadow(diff);
     return (shadow * (diffuse + specular) + ambient);
 }
 

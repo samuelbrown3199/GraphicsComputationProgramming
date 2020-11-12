@@ -2,7 +2,6 @@
 
 Application::Application()
 {
-	std::cout << "Created application" << std::endl;
 	srand(time(NULL));
 }
 
@@ -21,25 +20,25 @@ void Application::Initialise()
 	cam = std::make_shared<Camera>();
 	shader = std::make_shared<Shader>("vertex.vs", "fragment.fs");
 	depthShader = std::make_shared<Shader>("vertexDepth.vs", "fragmentDepth.fs");
-	depthDebugShader = std::make_shared<Shader>("vertexDepthDebug.vs", "fragmentDepthDebug.fs");
 
 	shader->UseShader();
 	//bind any required data to the shaders in intialisation
-
 	shader->BindVector3("material.ambient", glm::vec3(1.0f, 1.0f, 1.0f));
 	shader->BindVector3("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
 	shader->BindVector3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
 	shader->BindFloat("material.shininess", 32.0f);
 
-	shader->BindVector3("dirLight.direction", glm::vec3(-10, -10, -10));
-	shader->BindVector3("dirLight.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
-	shader->BindVector3("dirLight.diffuse", glm::vec3(0.5f, 0.5f, 0.31f));
-	shader->BindVector3("dirLight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+	directionalLight = std::make_shared<Light>(0, glm::vec3(-10, -20, -10), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.31f), glm::vec3(1.0f, 1.0f, 1.0f));
 
-	lights.push_back(std::make_shared<Light>(1, glm::vec3(-15, 5, 5), glm::vec3(0, 0, 0), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.31f), glm::vec3(1.0f, 1.0f, 1.0f)));
-	lights.push_back(std::make_shared<Light>(1, glm::vec3(-5, 5, 5), glm::vec3(0, 0, 0), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)));
-	lights.push_back(std::make_shared<Light>(1, glm::vec3(5, 5, 5), glm::vec3(0, 0, 0), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)));
-	lights.push_back(std::make_shared<Light>(1, glm::vec3(15, 5, 5), glm::vec3(0, 0, 0), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f)));
+	shader->BindVector3("dirLight.direction", directionalLight->position);
+	shader->BindVector3("dirLight.ambient", directionalLight->ambient);
+	shader->BindVector3("dirLight.diffuse", directionalLight->diffuse);
+	shader->BindVector3("dirLight.specular", directionalLight->specular);
+
+	lights.push_back(std::make_shared<Light>(1, glm::vec3(-15, 5, 5), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.31f), glm::vec3(1.0f, 1.0f, 1.0f)));
+	lights.push_back(std::make_shared<Light>(1, glm::vec3(-5, 5, 5), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)));
+	lights.push_back(std::make_shared<Light>(1, glm::vec3(5, 5, 5), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)));
+	lights.push_back(std::make_shared<Light>(1, glm::vec3(15, 5, 5), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f)));
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -76,11 +75,11 @@ void Application::Initialise()
 	floorMat = std::make_shared<Material>(floorTexture);
 	crateMat = std::make_shared<Material>(crateTexture);
 
-	meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(-5, 2.5, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), catMat, "curuthers.obj"));
+	meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(-5, 2.75, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), catMat, "curuthers.obj"));
 	meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(100, 0.5, 100), floorMat, "cube.obj")); //floor
 
-	meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(0, 1, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateMat, "cube.obj"));	//other cubes
-	meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(5, 5, 3), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateMat, "cube.obj"));
+	meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(0, 1.33, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateMat, "cube.obj"));	//other cubes
+	meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(9, 5, 3), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateMat, "cube.obj"));
 
 }
 
@@ -96,7 +95,7 @@ void Application::MainLoop()
 	glGenFramebuffers(1, &depthMapFBO);
 
 	//create depth texture
-	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+	const unsigned int SHADOW_WIDTH = 4096, SHADOW_HEIGHT = 4096;
 
 	unsigned int depthMap;
 	glGenTextures(1, &depthMap);
@@ -131,7 +130,7 @@ void Application::MainLoop()
 		glm::mat4 lightProjection, lightView, lightSpaceMatrix;
 		float near_plane = 1.0f, far_plane = 1000.0f;
 		lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
-		lightView = glm::lookAt(glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(0.0f), glm::vec3(0, 1, 0));
+		lightView = glm::lookAt(-directionalLight->position, glm::vec3(0.0f), glm::vec3(0, 1, 0));
 		lightSpaceMatrix = lightProjection * lightView;
 		depthShader->UseShader();
 		depthShader->BindMatrix("u_LightSpaceMatrix", lightSpaceMatrix);

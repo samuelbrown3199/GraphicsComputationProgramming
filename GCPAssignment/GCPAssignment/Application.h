@@ -34,6 +34,7 @@ private:
 
 	std::vector<std::shared_ptr<CubeRenderer>> cubes;
 	std::vector<std::shared_ptr<MeshRenderer>> meshes;
+	std::shared_ptr<Light> directionalLight;
 	std::vector<std::shared_ptr<Light>> lights;
 
 	void UpdateScreenSize();
