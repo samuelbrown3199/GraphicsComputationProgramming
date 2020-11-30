@@ -76,7 +76,10 @@
     <None Include="vertex.vs">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="fragment.fs">
+    <None Include="fragmentDL.fs">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="fragmentPL.fs">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

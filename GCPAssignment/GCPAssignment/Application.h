@@ -4,6 +4,7 @@
 #include <exception>
 #include <memory>
 #include <vector>
+#include <chrono>
 
 #include <SDL.h>
 #include <GL/glew.h>
@@ -26,9 +27,10 @@ private:
 	SDL_Window* window;
 
 	bool loop = true;
+	int shadowType;
 
 	std::shared_ptr<Camera> cam;
-	std::shared_ptr<Shader> shader, depthShader, depthDebugShader;
+	std::shared_ptr<Shader> shader, depthShader, depthShaderPL;
 	std::shared_ptr<Texture> crateTexture, floorTexture, catTexture, catSpecular;
 	std::shared_ptr<Material> catMat, floorMat, crateMat;
 
@@ -43,7 +45,7 @@ public:
 
 	Application();
 
-	void Initialise();
+	void Initialise(int type);
 	void MainLoop();
 	void RenderScene();
 	void RenderScene(std::shared_ptr<Shader> shader);

@@ -17,9 +17,11 @@ class Shader
 private:
 
 	std::string vertexCode;
+	std::string geometryCode;
 	std::string fragmentCode;
 
 	std::ifstream vShaderFile;
+	std::ifstream gShaderFile;
 	std::ifstream fShaderFile;
 
 public:
@@ -27,9 +29,12 @@ public:
 	GLuint programID;
 
 	Shader(std::string vertexPath, std::string fragmentPath);
+	Shader(std::string vertexPath, std::string geometryPath, std::string fragmentPath);
 	~Shader();
 
 	void SetupShader(const GLchar* vertexSource, const GLchar* fragmentSource);
+	void SetupShader(const GLchar* vertexSource, const GLchar* geometrySource, const GLchar* fragmentSource);
+
 	void UseShader();
 
 	void BindAttributeLocation(int index, const GLchar* name);
