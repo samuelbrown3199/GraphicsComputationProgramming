@@ -122,12 +122,15 @@ void Application::MainLoop()
 
 	//create depth texture
 	const unsigned int SHADOW_WIDTH = 4096, SHADOW_HEIGHT = 4096;
-	unsigned int depthMap, depthCubeMap;
+	unsigned int depthMap;
+	unsigned int depthCubeMap;
+
+	glGenTextures(1, &depthMap);
+	glGenTextures(1, &depthCubeMap);
 
 	if (shadowType == 1)
 	{
 		//generates the depth texture with the correct sizes and depth component
-		glGenTextures(1, &depthMap);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
 			SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
@@ -148,7 +151,6 @@ void Application::MainLoop()
 	}
 	else if (shadowType == 2)
 	{
-		glGenTextures(1, &depthCubeMap);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubeMap);
 		for (unsigned int i = 0; i < 6; i++)
 		{
@@ -207,7 +209,7 @@ void Application::MainLoop()
 		{
 			float aspect = (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT;
 			float near = 1.0f;
-			float far = 25.0f;
+			float far = 1000.0f;
 			glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), aspect, near, far);
 
 			std::vector<glm::mat4> shadowTransforms;
