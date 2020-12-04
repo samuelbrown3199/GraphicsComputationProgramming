@@ -80,9 +80,6 @@ void Application::Initialise(int type)
 	else if (shadowType == 2)
 	{
 		lights.push_back(std::make_shared<Light>(1, glm::vec3(0, 0, 0), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.31f), glm::vec3(1.0f, 1.0f, 1.0f)));
-		/*lights.push_back(std::make_shared<Light>(1, glm::vec3(-5, 5, 5), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)));
-		lights.push_back(std::make_shared<Light>(1, glm::vec3(5, 5, 5), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)));
-		lights.push_back(std::make_shared<Light>(1, glm::vec3(15, 5, 5), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f)));*/
 
 		shader->UseShader();
 		for (int i = 0; i < lights.size(); i++)
@@ -107,6 +104,7 @@ void Application::Initialise(int type)
 		meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(0, 0, -10), glm::vec3(0, 0, 0), glm::vec3(10, 10, 0.5), floorMat, "cube.obj")); //back
 
 		meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(4, 4, 4), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateMat, "cube.obj"));
+		meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(-4, -4, -4), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateMat, "cube.obj"));
 	}
 }
 
@@ -208,31 +206,30 @@ void Application::MainLoop()
 		else if (shadowType == 2)
 		{
 			float aspect = (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT;
-			float near = 1.0f;
-			float far = 1000.0f;
-			glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), aspect, near, far);
-
-			std::vector<glm::mat4> shadowTransforms;
 			glm::vec3 lightPos = lights.at(0)->position;
 
-			shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0)));
-			shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(-1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0)));
-			shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0, 1.0, 0.0), glm::vec3(0.0, 0.0, 1.0)));
-			shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0, -1.0, 0.0), glm::vec3(0.0, 0.0, -1.0)));
-			shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0, 0.0, 1.0), glm::vec3(0.0, -1.0, 0.0)));
-			shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, -1.0, 0.0)));
+			float near_plane = 1.0f;
+			float far_plane = 25.0f;
+			glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
+			std::vector<glm::mat4> shadowTransforms;
+			shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+			shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+			shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)));
+			shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f)));
+			shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+			shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
 
 			glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 			glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-			glClear(GL_COLOR_BUFFER_BIT || GL_DEPTH_BUFFER_BIT);
+			glClear(GL_DEPTH_BUFFER_BIT);
 			depthShaderPL->UseShader();
 			for (int i = 0; i < 6; i++)
 			{
 				std::string location = "shadowMatrices[" + std::to_string(i);
 				depthShaderPL->BindMatrix(location + "]", shadowTransforms.at(i));
 			}
-			depthShader->BindFloat("far_plane", far);
-			depthShader->BindVector3("lightPos", lightPos);
+			depthShaderPL->BindFloat("far_plane", far_plane);
+			depthShaderPL->BindVector3("lightPos", lightPos);
 
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubeMap);
@@ -243,8 +240,9 @@ void Application::MainLoop()
 			glViewport(0, 0, windowWidth, windowHeight);
 
 			shader->UseShader();
-			shader->BindFloat("far_plane", far);
+			shader->BindFloat("far_plane", far_plane);
 			shader->BindInt("depthMap", 2);
+			shader->BindVector3("lightPos", lightPos);
 		}
 
 		cam->CameraControls();
