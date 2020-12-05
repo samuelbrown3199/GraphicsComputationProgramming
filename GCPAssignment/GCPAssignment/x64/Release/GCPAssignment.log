@@ -1,0 +1,9 @@
+﻿  Application.cpp
+C:\Users\samue\Desktop\GamesDevelopment\Projects\GCP\GCPAssignment\GCPAssignment\Application.cpp(5,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  main.cpp
+  Generating code
+  15 of 1111 functions ( 1.4%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    100 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  GCPAssignment.vcxproj -> C:\Users\samue\Desktop\GamesDevelopment\Projects\GCP\GCPAssignment\x64\Release\GCPAssignment.exe

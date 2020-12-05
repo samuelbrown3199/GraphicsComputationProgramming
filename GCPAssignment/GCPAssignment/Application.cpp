@@ -48,15 +48,6 @@ void Application::Initialise(int type)
 	floorTexture->resourcePath = "floor.png";
 	floorTexture->OnLoad();
 
-	catTexture = std::make_shared<Texture>();
-	catTexture->resourcePath = "Whiskers_diffuse.png";
-	catTexture->OnLoad();
-
-	catSpecular = std::make_shared<Texture>();
-	catSpecular->resourcePath = "Whiskers_specular.png";
-	catSpecular->OnLoad();
-
-	catMat = std::make_shared<Material>(catTexture, catSpecular);
 	floorMat = std::make_shared<Material>(floorTexture);
 	crateMat = std::make_shared<Material>(crateTexture);
 
@@ -71,7 +62,6 @@ void Application::Initialise(int type)
 		shader->BindVector3("dirLight.specular", directionalLight->specular);
 		glUseProgram(0);
 
-		meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(-5, 2.75, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), catMat, "curuthers.obj"));
 		meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(100, 0.5, 100), floorMat, "cube.obj")); //floor
 
 		meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(0, 1.33, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateMat, "cube.obj"));	//other cubes
@@ -105,6 +95,7 @@ void Application::Initialise(int type)
 
 		meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(4, 4, 4), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateMat, "cube.obj"));
 		meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(-4, -4, -4), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateMat, "cube.obj"));
+		meshes.push_back(std::make_shared<MeshRenderer>(shader, glm::vec3(-6, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), crateMat, "cube.obj"));
 	}
 }
 
@@ -263,6 +254,8 @@ void Application::MainLoop()
 		else if(shadowType == 2)
 		{
 			glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubeMap);
+			meshes.at(6)->rotation.y += 0.1f;
+			meshes.at(7)->rotation.y += 0.1f;
 		}
 		RenderScene();
 
